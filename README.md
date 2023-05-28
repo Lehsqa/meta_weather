@@ -4,7 +4,8 @@
 
 1) ### `docker-compose up -d --build`
 2) ### `docker-compose run web python weather_project/manage.py migrate`
-3) ### `docker-compose up`
+3) ### `docker-compose run web python weather_project/manage.py createsuperuser`
+4) ### `docker-compose up`
 
 ## Available Path
 
