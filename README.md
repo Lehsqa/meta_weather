@@ -3,7 +3,8 @@
 ## Running
 
 1) ### `docker-compose up -d --build`
-2) ### `docker-compose up`
+2) ### `docker-compose run web python weather_project/manage.py migrate`
+3) ### `docker-compose up`
 
 ## Available Path
 
