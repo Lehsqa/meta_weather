@@ -6,17 +6,17 @@ scheduler = BackgroundScheduler()
 
 
 def start():
-    # Регистрируем задачу обновления погоды
+    # Register a weather update task
     scheduler.add_job(update_weather, CronTrigger.from_crontab('0 9 * * *'))
     scheduler.start()
 
 
 def reschedule(new_time: str):
-    # Отмена текущего расписания обновления погоды
+    # Cancelling the current weather update schedule
     scheduler.remove_all_jobs()
 
-    # Парсинг нового времени обновления
+    # Parsing new update times
     hour, minute = map(int, new_time.split(':'))
 
-    # Назначение нового расписания обновления погоды
+    # Assigning a new weather update schedule
     scheduler.add_job(update_weather, 'cron', hour=hour, minute=minute)

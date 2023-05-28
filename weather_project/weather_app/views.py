@@ -14,24 +14,24 @@ class WeatherViewSet(viewsets.ReadOnlyModelViewSet):
 
 class UpdateWeatherView(views.APIView):
     def get(self, request, format=None):
-        # Создание новой задачи парсинга
+        # Creating a new parsing task
         task = ParsingTask.objects.create(status='Scheduled')
 
         try:
-            # Запуск задачи обновления погоды
+            # Starting the weather update task
             update_weather()
 
-            # Обновление статуса задачи на 'Done'
+            # Update task status to 'Done'
             task.status = 'Done'
             task.save()
 
             return Response({"message": "Weather information has been updated."})
         except Exception as e:
-            # Обновление статуса задачи на 'In Progress'
+            # Update task status to 'In Progress'
             task.status = 'In Progress'
             task.save()
 
-            # Возвращение сообщения об ошибке
+            # Return of an error message
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
@@ -42,7 +42,7 @@ class ParsingTaskViewSet(viewsets.ReadOnlyModelViewSet):
 
 class UpdateWeatherTimeView(views.APIView):
     def get(self, request, format=None):
-        # Получение нового времени обновления из запроса
+        # Obtaining a new update time from a request
         new_time = request.GET.get('time')
         print(new_time)
 
@@ -50,7 +50,7 @@ class UpdateWeatherTimeView(views.APIView):
             return Response({"error": "Invalid time value."}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            # Изменение времени обновления
+            # Changing the update time
             reschedule(new_time)
             return Response({"message": "Weather update time has been changed."})
         except Exception as e:

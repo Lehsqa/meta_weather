@@ -19,21 +19,21 @@ def update_weather():
 
     soup = BeautifulSoup(driver.page_source, 'lxml')
 
-    # Находим блок с прогнозом погоды на 5 дней
+    # Find the block with the 6-day weather forecast
     day_blocks = soup.find_all('div', attrs={'class': 'month__day fl-col-c-c'}, limit=6)
     prev_day = datetime.now().date() - timedelta(days=1)
     for day_block in day_blocks:
-        # Получаем дату
+        # Getting the date
         date = prev_day + timedelta(days=1)
         prev_day = date
 
-        # Получаем температуру
+        # Getting a temperature
         temperature = day_block.find('span', attrs={'class': 'high'}).text.strip()
 
-        # Получаем описание погоды
+        # Getting a description of the weather
         description = day_block.find('div', attrs={'class': 'month__icon'}).find('span')['data-tippy-content']
 
-        # Проверяем, существует ли запись для этой даты
+        # Check if an entry exists for this date
         try:
             weather = Weather.objects.get(date=date)
             weather.temperature = temperature
